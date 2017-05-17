@@ -14,14 +14,17 @@
 <body>
 <div ng-app="myApp" ng-controller="myCtrl">
 
-<div class="col-md-4">
+<div class="col-md-4 yle1">
   <div ng-show='selectedOne'>
       <p><b>Name</b><br>{{selectedOne.name}}</p>
       <p><b>Description</b><br>{{selectedOne.description}}</p>
       <p><b>Target Date</b><br>{{selectedOne.targetDate | date}}</p>
       <p><b>Date Created</b><br>{{selectedOne.dateCreated | date}}</p>
       <p><b>Tags</b><br><small ng-repeat="y in selectedOne.tags" ng-click='filterByTag(y)'>#{{y+", "}}</small></p>
-
+      <p><b>Done? </b>
+        <p ng-show='selectedOne.done'> Yeah</p>
+        <p ng-hide='selectedOne.done'>Naah</p>
+      </p>
       <div>
         <button class="btn btn-success" ng-click='markAsDone(selectedOne)'>Mark as done</button>
         <button class="btn btn-info" ng-click='edit(selectedOne)'>Edit</button>
@@ -30,18 +33,18 @@
   </div>
 </div>
 
-<div class ='col-md-4 yle' >
+<div class ='col-md-4 yle2' >
 <table class="table table-strippedx">
   <caption class="nah">
     <b>To-do List</b>
-    <span class="tab-space">Filtered by tag: {{tag}}</span>
+    <span class="tab-space" ng-click='filterByTag("default")' >Filtered by tag: {{tag}}</span>
   </caption>
     <tr>
       <td>What to do</td>
       <td>Target Date:</td>
       <td>Tags</td>
     </tr>
-    <tr ng-repeat="x in todos track by $index" ng-click="setSelected(x,$index)" ng-show='hasTag(x.tags,tag)'>
+    <tr ng-style="{'background-color': x.done? 'lightgreen':'white'}" ng-repeat="x in todos track by $index" ng-click="setSelected(x,$index)" ng-show='hasTag(x.tags,tag)'>
       <td>{{x.name}}</td>
       <td>{{x.targetDate | date}}</td>
       <td ng-repeat="y in x.tags | limitTo:3"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></td>

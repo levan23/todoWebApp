@@ -58,10 +58,16 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.setSelected = function(selected,index){
         $scope.selectedOne=selected;
         $scope.currentIndex=index;
+        // selected.done=false;
     }
 
     $scope.markAsDone = function(toMark){
         toMark.done=true;
+        var a=$scope.todos[$scope.currentIndex];
+        $scope.todos.splice($scope.currentIndex,1);
+        $scope.todos.push(a);
+        $localStorage.savedData=$scope.todos;
+        $scope.selectedOne=undefined;
     }
 
     $scope.delete = function(toDelete){

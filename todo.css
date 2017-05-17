@@ -1,10 +1,12 @@
 [ng-click]{
 	cursor: pointer;
 }
-.yle{
+.yle2{
 	font-size: 15px;
 }
-
+.yle1{
+	font-size: 20px;
+}
 span.tab-space{
 	padding-left:5em;
 }
