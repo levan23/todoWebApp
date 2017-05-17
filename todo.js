@@ -20,7 +20,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.addItem=function(){
     	
     	$scope.todos.push({name:$scope.name,description:$scope.description,
-                dateCreated:new Date(),targetDate:$scope.targetDate,tags:$scope.tags.split(",")});
+                dateCreated:new Date(),targetDate:$scope.targetDate,tags:$scope.tags.split(","),done:false});
         $localStorage.savedData=$scope.todos;
 
         $scope.name="";
@@ -37,7 +37,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.hasTag = function(list,tag){
         if(tag==='default') return true;
         var result=false;
-    
         list.forEach(function(member){
             if(member==tag){
                 result = true;
@@ -49,8 +48,16 @@ app.controller("myCtrl", function($scope,$localStorage) {
     }
     $scope.setSelected = function(selected){
         $scope.selectedOne=selected;
+    }
 
-        console.log("Selected: "+selected.name);
+    $scope.markAsDone = function(toMark){
+        toMark.done=true;
+    }
+
+    $scope.delete = function(toDelete){
+        delete $localStorage.savedData[toDelete];
+        $scope.todos=$localStorage.savedData;
+        $scope.setSelected($scope.todos[0]);
     }
 
     $scope.resetFunc=function(){

@@ -8,24 +8,25 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js'></script>
 	<script src="todo.js"></script>
 </head>
-
 <body>
 
 <div ng-app="myApp" ng-controller="myCtrl">
   <ul>
     <b>Name:</b><b>Target Date:</b> 
-    <span  ng-repeat="x in todos track by $index" ng-click="setSelected(x);changeIndex($index)" style="background-color: {{col}}">
+    <span  ng-repeat="x in todos track by $index" ng-click="setSelected(x)">
     <div ng-show='hasTag(x.tags,tag)'>
     	{{x.name}}
       {{x.targetDate | date}}
       <span ng-repeat="y in x.tags"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></span>
-      <div ng-show='x===selectedOne'><b>Description:</b> {{x.description}}</div>
-    	<span ng-show='x===selectedOne'><b>Date Created:</b> {{x.dateCreated | date}}</span>
-
+      <div ng-show='x===selectedOne && selectedOne'><b>Description:</b> {{x.description}}</div>
+    	<span ng-show='x===selectedOne && selectedOne'><b>Date Created:</b> {{x.dateCreated | date}}</span>
+      <span ng-show='x===selectedOne'>
+        <button ng-show='selectedOne' ng-click='markAsDone(x)'>Mark as done</button>
+        <button ng-show='selectedOne' ng-click='delete($index)'>Delete</button>
+      </span>
     </div>
     </span>
   </ul>
-  
   <form name="myform" novalidate>
   	<p><b>Name</b><input type="text" name="name" ng-model="name" required>
   		<span style="color:red" ng-show="myform.name.$dirty && myform.name.$invalid"></span>
