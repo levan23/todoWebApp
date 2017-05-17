@@ -1,4 +1,4 @@
-var app = angular.module("myApp", ["ngStorage"]); 
+var app = angular.module("myApp", ["ngStorage","mp.datePicker"]); 
 
 app.controller("myCtrl", function($scope,$localStorage) {
     $scope.dnow=new Date();
@@ -65,7 +65,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
     }
 
     $scope.delete = function(toDelete){
-        //delete $localStorage.savedData[toDelete];
         $scope.todos.splice(toDelete,1);
         $localStorage.savedData=$scope.todos;
         $scope.selectedOne=undefined;

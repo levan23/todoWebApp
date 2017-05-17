@@ -5,12 +5,15 @@
 	<title>Lazy to do</title>
 	<link rel='stylesheet' href="bootstrap.min.css">
   <link rel="stylesheet" href="todo.css">
+  <link rel="stylesheet" href="angular-date-picker.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js'></script>
+  <script src="angular-date-picker.js" ></script>
 	<script src="todo.js"></script>
 </head>
 <body>
 <div ng-app="myApp" ng-controller="myCtrl">
+
 <div class="col-md-4">
   <div ng-show='selectedOne'>
       <p><b>Name</b><br>{{selectedOne.name}}</p>
@@ -26,12 +29,16 @@
       </div>
   </div>
 </div>
+
 <div class ='col-md-4 yle' >
 <table class="table table-strippedx">
-  <caption><b>To-do List</b></caption>
+  <caption class="nah">
+    <b>To-do List</b>
+    <span class="tab-space">Filtered by tag: {{tag}}</span>
+  </caption>
     <tr>
-      <td>data</td>
-      <td> target Date:</td>
+      <td>What to do</td>
+      <td>Target Date:</td>
       <td>Tags</td>
     </tr>
     <tr ng-repeat="x in todos track by $index" ng-click="setSelected(x,$index)" ng-show='hasTag(x.tags,tag)'>
@@ -41,47 +48,52 @@
     </tr>
 </table>
 </div>
-    <!-- <b>Name:</b><b>Target Date:</b> 
-    <span ng-repeat="x in todos track by $index" ng-click="setSelected(x)">
-    <div class="table table-striped" ng-show='hasTag(x.tags,tag)'>
-    	{{x.name}}
-      {{x.targetDate | date}}
-      <span ng-repeat="y in x.tags"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></span>
-      <div ng-show='x===selectedOne && selectedOne'>
-          <div><b>Description:</b> {{x.description}}</div>
-    	    <div><b>Date Created:</b> {{x.dateCreated | date}}</div>
-      </div>
-      <span ng-show='x===selectedOne'>
-        <button class="btn btn-success" ng-show='selectedOne' ng-click='markAsDone(x)'>Mark as done</button>
-        <button class="btn btn-info" ng-show='selectedOne' ng-click='edit(x)'>Edit</button>
-        <button class="btn btn-danger" ng-show='selectedOne' ng-click='delete($index)'>Delete</button>
-      </span>
+
+<form class="form-horizontal col-md-4" name="myform" novalidate>
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="Name">Name</label>  
+    <div class="col-md-6">
+      <input ng-model="name" name="Name" placeholder="What to do?" 
+              class="form-control input-md" required="" type="text">
     </div>
-    </span> -->
-  <!-- </div> -->
-<form class="form-group col-md-4" name="myform" novalidate>
-  	<p><b>Name</b><input type="text" name="name" ng-model="name" required>
-  		<span style="color:red" ng-show="myform.name.$dirty && myform.name.$invalid"></span>
-  		<span ng-show="form.targetDate.$error.required">Name required
-  	</p>
-  	<p><strong>description</strong><input type="text" name="description" ng-model="description" required></p>
-  	<p><strong>Target date</strong><input type="date" name="targetDate" ng-model="targetDate" 
-  											placeholder="YYYY-MM-DD" min={{dnow}} required>
-  		<span style="color:red" ng-show="myform.targetDate.$touched && 
-  					myform.targetDate.$invalid && !myform.targetDate.$error.date">Incorrect date!</span>
-		<span style="color:red" ng-show="myform.targetDate.$error.date">Not a valid date!</span>
-		<!-- <span style="color:red" ng-show="myform.targetDate.$error">error</span> -->
-  	</p>
-  	<p><b>Tags</b><input name="tags" ng-model="tags" placeholder="Separate by commas" required></p>
+  </div>
   	
-  <button ng-disabled="myform.name.$invalid || myform.description.$invalid
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="description">Description</label>
+    <div class="col-md-6">                     
+      <textarea class="form-control" ng-model="description" name="description">
+      Describe to-do
+      </textarea>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="targetDate">Target Date</label>
+    <div class="col-md-6 date">    
+       <div class="input-group input-append date">
+            <date-picker ng-model="targetDate">
+            </date-picker>
+        </div>                 
+      <!-- <input ng-model="targetDate" name="targetDate" class="form-control input-md" required="" type="date"> -->
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-3 control-label" for="tags">Tags</label>  
+    <div class="col-md-6">
+      <input ng-model="tags" name="tags" placeholder="Separate by commas" 
+              class="form-control input-md" required="" type="text">
+    </div>
+  </div>
+  
+  <button class="btn btn-success btn-lg btn-block" ng-disabled="myform.name.$invalid || myform.description.$invalid
   			|| myform.targetDate.$error.date || myform.targetDate.$invalid || 
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
  
-  <button type='submit' ng-click="resetFunc()">Reset localstorage</button>
-  <button type='submit' ng-click="filterByTag('default')">Reset tag</button> 
+  <!-- <button type='submit' ng-click="resetFunc()">Reset localstorage</button> -->
 </form>
 </div>
 
+</script>
 </body>
 </html>
