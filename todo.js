@@ -23,6 +23,9 @@ app.controller("myCtrl", function($scope,$localStorage) {
                 dateCreated:new Date(),targetDate:$scope.targetDate,tags:$scope.tags.split(","),done:false});
         $localStorage.savedData=$scope.todos;
 
+        $scope.selectedOne=undefined;
+        $scope.tag='default';
+        
         $scope.name="";
         $scope.description="";
         $scope.targetDate="";
@@ -58,7 +61,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.delete = function(toDelete){
         delete $localStorage.savedData[toDelete];
         $scope.todos=$localStorage.savedData;
-        $scope.setSelected($scope.todos[0]);
+        $scope.selectedOne=undefined;
     }
 
     $scope.resetFunc=function(){
