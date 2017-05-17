@@ -4,6 +4,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.dnow=new Date();
     $scope.tag="default";
     $scope.col='white';
+    $scope.currentIndex;
     if(!$scope.todos){
         $scope.todos=[];
         if($localStorage.savedData){
@@ -15,7 +16,10 @@ app.controller("myCtrl", function($scope,$localStorage) {
 
     if(!$localStorage.savedData && $scope.todos){
         $localStorage.savedData=$scope.todos;
+
     }
+        console.log($scope.todos);
+
 
     $scope.addItem=function(){
     	
@@ -25,7 +29,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
 
         $scope.selectedOne=undefined;
         $scope.tag='default';
-        
+
         $scope.name="";
         $scope.description="";
         $scope.targetDate="";
@@ -35,6 +39,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
 
     $scope.filterByTag = function(tag){
         $scope.tag=tag;
+        $scope.selectedOne=undefined;
     }
 
     $scope.hasTag = function(list,tag){
@@ -50,8 +55,9 @@ app.controller("myCtrl", function($scope,$localStorage) {
         });
         return result;
     }
-    $scope.setSelected = function(selected){
+    $scope.setSelected = function(selected,index){
         $scope.selectedOne=selected;
+        $scope.currentIndex=index;
     }
 
     $scope.markAsDone = function(toMark){
@@ -59,8 +65,9 @@ app.controller("myCtrl", function($scope,$localStorage) {
     }
 
     $scope.delete = function(toDelete){
-        delete $localStorage.savedData[toDelete];
-        $scope.todos=$localStorage.savedData;
+        //delete $localStorage.savedData[toDelete];
+        $scope.todos.splice(toDelete,1);
+        $localStorage.savedData=$scope.todos;
         $scope.selectedOne=undefined;
     }
 

@@ -3,31 +3,63 @@
 <head>
 	<meta charset="utf-8">
 	<title>Lazy to do</title>
-	<link rel='stylesheet' href="todo.css">
+	<link rel='stylesheet' href="bootstrap.min.css">
+  <link rel="stylesheet" href="todo.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js'></script>
 	<script src="todo.js"></script>
 </head>
 <body>
-
 <div ng-app="myApp" ng-controller="myCtrl">
-  <ul>
-    <b>Name:</b><b>Target Date:</b> 
-    <span  ng-repeat="x in todos track by $index" ng-click="setSelected(x)">
-    <div ng-show='hasTag(x.tags,tag)'>
+<div class="col-md-4">
+  <div ng-show='selectedOne'>
+      <p><b>Name</b><br>{{selectedOne.name}}</p>
+      <p><b>Description</b><br>{{selectedOne.description}}</p>
+      <p><b>Target Date</b><br>{{selectedOne.targetDate | date}}</p>
+      <p><b>Date Created</b><br>{{selectedOne.dateCreated | date}}</p>
+      <p><b>Tags</b><br><small ng-repeat="y in selectedOne.tags" ng-click='filterByTag(y)'>#{{y+", "}}</small></p>
+
+      <div>
+        <button class="btn btn-success" ng-click='markAsDone(selectedOne)'>Mark as done</button>
+        <button class="btn btn-info" ng-click='edit(selectedOne)'>Edit</button>
+        <button class="btn btn-danger" ng-click='delete(currentIndex)'>Delete</button>
+      </div>
+  </div>
+</div>
+<div class ='col-md-4 yle' >
+<table class="table table-strippedx">
+  <caption><b>To-do List</b></caption>
+    <tr>
+      <td>data</td>
+      <td> target Date:</td>
+      <td>Tags</td>
+    </tr>
+    <tr ng-repeat="x in todos track by $index" ng-click="setSelected(x,$index)" ng-show='hasTag(x.tags,tag)'>
+      <td>{{x.name}}</td>
+      <td>{{x.targetDate | date}}</td>
+      <td ng-repeat="y in x.tags | limitTo:3"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></td>
+    </tr>
+</table>
+</div>
+    <!-- <b>Name:</b><b>Target Date:</b> 
+    <span ng-repeat="x in todos track by $index" ng-click="setSelected(x)">
+    <div class="table table-striped" ng-show='hasTag(x.tags,tag)'>
     	{{x.name}}
       {{x.targetDate | date}}
       <span ng-repeat="y in x.tags"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></span>
-      <div ng-show='x===selectedOne && selectedOne'><b>Description:</b> {{x.description}}</div>
-    	<span ng-show='x===selectedOne && selectedOne'><b>Date Created:</b> {{x.dateCreated | date}}</span>
+      <div ng-show='x===selectedOne && selectedOne'>
+          <div><b>Description:</b> {{x.description}}</div>
+    	    <div><b>Date Created:</b> {{x.dateCreated | date}}</div>
+      </div>
       <span ng-show='x===selectedOne'>
-        <button ng-show='selectedOne' ng-click='markAsDone(x)'>Mark as done</button>
-        <button ng-show='selectedOne' ng-click='delete($index)'>Delete</button>
+        <button class="btn btn-success" ng-show='selectedOne' ng-click='markAsDone(x)'>Mark as done</button>
+        <button class="btn btn-info" ng-show='selectedOne' ng-click='edit(x)'>Edit</button>
+        <button class="btn btn-danger" ng-show='selectedOne' ng-click='delete($index)'>Delete</button>
       </span>
     </div>
-    </span>
-  </ul>
-  <form name="myform" novalidate>
+    </span> -->
+  <!-- </div> -->
+<form class="form-group col-md-4" name="myform" novalidate>
   	<p><b>Name</b><input type="text" name="name" ng-model="name" required>
   		<span style="color:red" ng-show="myform.name.$dirty && myform.name.$invalid"></span>
   		<span ng-show="form.targetDate.$error.required">Name required
@@ -45,11 +77,10 @@
   <button ng-disabled="myform.name.$invalid || myform.description.$invalid
   			|| myform.targetDate.$error.date || myform.targetDate.$invalid || 
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
-  <!-- <p ng-style={color:"red"}>{{errortext}}</p> -->
-  </form>
-  <button type='submit' ng-show="" ng-click="resetFunc()">Reset localstorage</button>
-  <button type='submit' ng-click="filterByTag('default')">Reset tag</button>
-  {{tag}}
+ 
+  <button type='submit' ng-click="resetFunc()">Reset localstorage</button>
+  <button type='submit' ng-click="filterByTag('default')">Reset tag</button> 
+</form>
 </div>
 
 </body>

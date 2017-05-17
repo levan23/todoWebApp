@@ -1,7 +1,6 @@
 [ng-click]{
 	cursor: pointer;
 }
-
-.hide-bullets{
-	list-style-type: none;
+.yle{
+	font-size: 15px;
 }
