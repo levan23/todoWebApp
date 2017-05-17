@@ -44,27 +44,34 @@
       <td>Target Date:</td>
       <td>Tags</td>
     </tr>
-    <tr ng-style="{'background-color': x.done? 'lightgreen':'white'}" ng-repeat="x in todos track by $index" ng-click="setSelected(x,$index)" ng-show='hasTag(x.tags,tag)'>
+    <tr ng-style="{'background-color': x.done? 'lightgreen':'white'}" 
+        ng-repeat="x in todos track by $index | orderBy:'-targetDate'" ng-click="setSelected(x,$index)" 
+        ng-show='hasTag(x.tags,tag)'>
       <td>{{x.name}}</td>
       <td>{{x.targetDate | date}}</td>
       <td ng-repeat="y in x.tags | limitTo:3"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></td>
+    </tr>
+    <tr>
+      <td>{{name}}</td>
+      <td>{{targetDate}}</td>
+      <td ng-repeat='y in tags.split(",") | limitTo:3'>#{{y+", "}}</td>
     </tr>
 </table>
 </div>
 
 <form class="form-horizontal col-md-4" name="myform" novalidate>
   <div class="form-group">
-    <label class="col-md-3 control-label" for="Name">Name</label>  
+    <label class="col-md-3 control-label" for="name">Name</label>  
     <div class="col-md-6">
-      <input ng-model="name" name="Name" placeholder="What to do?" 
-              class="form-control input-md" required="" type="text">
+      <input ng-model="name" name="name" placeholder="What to do?" 
+              class="form-control input-md" type="text" required>
     </div>
   </div>
   	
   <div class="form-group">
     <label class="col-md-3 control-label" for="description">Description</label>
     <div class="col-md-6">                     
-      <textarea class="form-control" ng-model="description" name="description">
+      <textarea class="form-control" ng-model="description" name="description" required="">
       Describe to-do
       </textarea>
     </div>
@@ -74,7 +81,7 @@
     <label class="col-md-3 control-label" for="targetDate">Target Date</label>
     <div class="col-md-6 date">    
        <div class="input-group input-append date">
-            <date-picker ng-model="targetDate">
+            <date-picker ng-model="targetDate" name='targetDate' required>
             </date-picker>
         </div>                 
       <!-- <input ng-model="targetDate" name="targetDate" class="form-control input-md" required="" type="date"> -->
@@ -89,8 +96,8 @@
     </div>
   </div>
   
-  <button class="btn btn-success btn-lg btn-block" ng-disabled="myform.name.$invalid || myform.description.$invalid
-  			|| myform.targetDate.$error.date || myform.targetDate.$invalid || 
+  <button class="btn btn-success btn-lg btn-block" ng-disabled="myform.name.$pristine || myform.description.$invalid
+  			|| myform.targetDate.$invalid || myform.targetDate.$pristine || 
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
  
   <!-- <button type='submit' ng-click="resetFunc()">Reset localstorage</button> -->
