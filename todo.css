@@ -1,3 +1,7 @@
-#form.input{
-	text-align: left;
+[ng-click]{
+	cursor: pointer;
+}
+
+.hide-bullets{
+	list-style-type: none;
 }

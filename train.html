@@ -3,20 +3,27 @@
 <head>
 	<meta charset="utf-8">
 	<title>Lazy to do</title>
+	<link rel='stylesheet' href="todo.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-	<script src="todo.js"></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js'></script>
+	<script src="todo.js"></script>
 </head>
 
 <body>
 
 <div ng-app="myApp" ng-controller="myCtrl">
   <ul>
-    <li ng-repeat="x in todos">
-    	<b>Name:</b> {{x.name}} <b>Description:</b> {{x.description}} <b>Target Date:</b> {{x.targetDate+" "}}
-    	<b>Date Created:</b> {{x.dateCreated | date}} <small><span ng-repeat="y in x.tags">#{{y+", "}}</span></small>
+    <b>Name:</b><b>Target Date:</b> 
+    <span  ng-repeat="x in todos track by $index" ng-click="setSelected(x);changeIndex($index)" style="background-color: {{col}}">
+    <div ng-show='hasTag(x.tags,tag)'>
+    	{{x.name}}
+      {{x.targetDate | date}}
+      <span ng-repeat="y in x.tags"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></span>
+      <div ng-show='x===selectedOne'><b>Description:</b> {{x.description}}</div>
+    	<span ng-show='x===selectedOne'><b>Date Created:</b> {{x.dateCreated | date}}</span>
 
-    </li>
+    </div>
+    </span>
   </ul>
   
   <form name="myform" novalidate>
@@ -33,13 +40,15 @@
 		<!-- <span style="color:red" ng-show="myform.targetDate.$error">error</span> -->
   	</p>
   	<p><b>Tags</b><input name="tags" ng-model="tags" placeholder="Separate by commas" required></p>
-
+  	
   <button ng-disabled="myform.name.$invalid || myform.description.$invalid
   			|| myform.targetDate.$error.date || myform.targetDate.$invalid || 
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
   <!-- <p ng-style={color:"red"}>{{errortext}}</p> -->
   </form>
-  <button type='submit' ng-click="resetFunc()">Reset localstorage</button>
+  <button type='submit' ng-show="" ng-click="resetFunc()">Reset localstorage</button>
+  <button type='submit' ng-click="filterByTag('default')">Reset tag</button>
+  {{tag}}
 </div>
 
 </body>

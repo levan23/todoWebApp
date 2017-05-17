@@ -2,16 +2,8 @@ var app = angular.module("myApp", ["ngStorage"]);
 
 app.controller("myCtrl", function($scope,$localStorage) {
     $scope.dnow=new Date();
-   
-   //window.localStorage['data']=JSON.stringify(fst);
-    
-    var fst=[{name:"GoHOME",description:"Need to go home",dateCreated:'15/05/2017',
-        targetDate:'20/05/2017',tags:["first","second"]}];
-    var snd=[{name:"haha",description:"asdfadsf",dateCreated:'15/1/2017',
-        targetDate:'20/01/2017',tags:["frst","scnd"]}];
-    //$scope.saved = localStorage.getItem('data');
-    
-   
+    $scope.tag="default";
+    $scope.col='white';
     if(!$scope.todos){
         $scope.todos=[];
         if($localStorage.savedData){
@@ -20,15 +12,15 @@ app.controller("myCtrl", function($scope,$localStorage) {
             });
         }
     }
+
     if(!$localStorage.savedData && $scope.todos){
-        //if(!$scope.todos)$scope.todos=[$localStorage.savedData];
         $localStorage.savedData=$scope.todos;
     }
+
     $scope.addItem=function(){
     	
     	$scope.todos.push({name:$scope.name,description:$scope.description,
                 dateCreated:new Date(),targetDate:$scope.targetDate,tags:$scope.tags.split(",")});
-        //localStorage.setItem('data', JSON.stringify($scope.todos));
         $localStorage.savedData=$scope.todos;
 
         $scope.name="";
@@ -36,6 +28,29 @@ app.controller("myCtrl", function($scope,$localStorage) {
         $scope.targetDate="";
         $scope.tags=[];
         
+    }
+
+    $scope.filterByTag = function(tag){
+        $scope.tag=tag;
+    }
+
+    $scope.hasTag = function(list,tag){
+        if(tag==='default') return true;
+        var result=false;
+    
+        list.forEach(function(member){
+            if(member==tag){
+                result = true;
+                //break;  //no idea why break won't work.
+            }
+            
+        });
+        return result;
+    }
+    $scope.setSelected = function(selected){
+        $scope.selectedOne=selected;
+
+        console.log("Selected: "+selected.name);
     }
 
     $scope.resetFunc=function(){
