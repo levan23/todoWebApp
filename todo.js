@@ -37,6 +37,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.hasTag = function(list,tag){
         if(tag==='default') return true;
         var result=false;
+        if(list==undefined) return false;
         list.forEach(function(member){
             if(member==tag){
                 result = true;
