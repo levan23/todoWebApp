@@ -25,10 +25,14 @@
         <p ng-show='selectedOne.done'> Yeah</p>
         <p ng-hide='selectedOne.done'>Naah</p>
       </p>
+      <p><b>Overdue? </b>
+        <p ng-show='selectedOne.overdue'> Yeah</p>
+        <p ng-hide='selectedOne.overdue'>Naah</p>
+      </p>
       <div>
         <button class="btn btn-success" ng-click='markAsDone(selectedOne)'>Mark as done</button>
         <button class="btn btn-info" ng-click='edit(selectedOne)'>Edit</button>
-        <button class="btn btn-danger" ng-click='delete(currentIndex)'>Delete</button>
+        <button class="btn btn-danger" ng-click='delete(indexOf(selectedOne))'>Delete</button>
       </div>
   </div>
 </div>
@@ -40,12 +44,13 @@
     <span class="tab-space" ng-click='filterByTag("default")' >Filtered by tag: {{tag}}</span>
   </caption>
     <tr>
-      <td>What to do</td>
-      <td>Target Date:</td>
-      <td>Tags</td>
+      <td><b>What to do</b></td>
+      <td><b>Target Date:</b></td>
+      <td><b>Tags</b></td>
     </tr>
     <tr ng-style="{'background-color': x.done? 'lightgreen':'white'}" 
-        ng-repeat="x in todos track by $index | orderBy:'-targetDate'" ng-click="setSelected(x,$index)" 
+        ng-repeat="x in todos | orderBy:['done','targetDate','name'] track by $index" 
+        ng-click="setSelected(x,$index)" 
         ng-show='hasTag(x.tags,tag)'>
       <td>{{x.name}}</td>
       <td>{{x.targetDate | date}}</td>
@@ -97,7 +102,7 @@
   </div>
   
   <button class="btn btn-success btn-lg btn-block" ng-disabled="myform.name.$pristine || myform.description.$invalid
-  			|| myform.targetDate.$invalid || myform.targetDate.$pristine || 
+  			|| myform.targetDate.$invalid || myform.targetDate.$pristine ||
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
  
   <!-- <button type='submit' ng-click="resetFunc()">Reset localstorage</button> -->

@@ -1,7 +1,7 @@
 var app = angular.module("myApp", ["ngStorage","mp.datePicker"]); 
 
 app.controller("myCtrl", function($scope,$localStorage) {
-    $scope.dnow=new Date();
+    $scope.datenow=new Date();
     $scope.tag="default";
     $scope.col='white';
     $scope.currentIndex;
@@ -24,7 +24,8 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.addItem=function(){
     	
     	$scope.todos.push({name:$scope.name,description:$scope.description,
-                dateCreated:new Date(),targetDate:$scope.targetDate,tags:$scope.tags.split(","),done:false});
+                dateCreated:new Date(),targetDate:new Date($scope.targetDate),
+                tags:$scope.tags.split(","),done:false,overdue:false});
         $localStorage.savedData=$scope.todos;
 
         $scope.selectedOne=undefined;
@@ -59,6 +60,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
         $scope.selectedOne=selected;
         $scope.currentIndex=index;
         // selected.done=false;
+        //$scope.checkForOverdue(selected);
     }
 
     $scope.markAsDone = function(toMark){
@@ -68,6 +70,23 @@ app.controller("myCtrl", function($scope,$localStorage) {
         $scope.todos.push(a);
         $localStorage.savedData=$scope.todos;
         $scope.selectedOne=undefined;
+    }
+
+    $scope.indexOf = function(selected){
+        for(var i = 0; i < $scope.todos.length; i++){
+            if($scope.todos[i]===selected){
+                return i;
+            }
+        };
+        return -1;
+    }
+
+    $scope.checkForOverdue = function(selected){
+        if(selected.targetDate<$scope.datenow){
+            var ind=$scope.indexOf(selected);
+            $scope.todos[ind].overdue=true;
+            $localStorage.savedData=$scope.todos;
+        }
     }
 
     $scope.delete = function(toDelete){
@@ -80,5 +99,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
         $localStorage.$reset();
         $scope.todos=$localStorage.savedData;
     }
+
 
 });
