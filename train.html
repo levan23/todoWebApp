@@ -16,22 +16,45 @@
 
 <div class="col-md-4 yle1">
   <div ng-show='selectedOne'>
-      <p><b>Name</b><br>{{selectedOne.name}}</p>
-      <p><b>Description</b><br>{{selectedOne.description}}</p>
-      <p><b>Target Date</b><br>{{selectedOne.targetDate | date}}</p>
-      <p><b>Date Created</b><br>{{selectedOne.dateCreated | date}}</p>
-      <p><b>Tags</b><br><small ng-repeat="y in selectedOne.tags" ng-click='filterByTag(y)'>#{{y+", "}}</small></p>
-      <p><b>Done? </b>
+      <p><b>Name</b><br>
+      <span ng-show='!editable'>{{selectedOne.name}}</span>
+      <input ng-show='editable' ng-init='selectedOne.name' 
+            ng-model="selectedOne.name" name="name" type="text" >
+      </p>
+      <p><b>Description</b><br>
+      <span ng-show='!editable'>{{selectedOne.description}}</span>
+      <input ng-show='editable' ng-init='selectedOne.description'
+            ng-model="selectedOne.description" 
+            name="description" type="text" >
+      </p>
+      <p><b>Target Date</b><br>
+        <span ng-show="!editable">{{selectedOne.targetDate | date}}</span>
+        <date-picker ng-show="editable" ng-model="selectedOne.targetDate" name='targetDate'
+                  name='selectedOne.targetDate' ng-init="selectedOne.targetDate">
+        </date-picker>
+      </p>
+      <p ng-show="!editable"><b>Date Created</b>
+        <br>{{selectedOne.dateCreated | date}}
+      </p>
+      <p ng-show="!editable"><b>Tags</b><br>
+        <small ng-repeat="y in selectedOne.tags"
+            ng-click='filterByTag(y)'>{{y+", "}}
+        </small>
+        <input ng-show='' ng-model="selectedOne.tags" name="tags" 
+              type="text" ng-init='selectedOne.tags.join(",")'>
+
+      </p>
+      <div ng-show="!editable"><b>Done? </b>
         <p ng-show='selectedOne.done'> Yeah</p>
         <p ng-hide='selectedOne.done'>Naah</p>
-      </p>
-      <p><b>Overdue? </b>
+      </div>
+      <div ng-show="!editable"><b>Overdue? </b>
         <p ng-show='selectedOne.overdue'> Yeah</p>
         <p ng-hide='selectedOne.overdue'>Naah</p>
-      </p>
+      </div>
       <div>
         <button class="btn btn-success" ng-click='markAsDone(selectedOne)'>Mark as done</button>
-        <button class="btn btn-info" ng-click='edit(selectedOne)'>Edit</button>
+        <button class="btn btn-info" ng-click='edit(selectedOne)' id='editsave'>Edit</button>
         <button class="btn btn-danger" ng-click='delete(indexOf(selectedOne))'>Delete</button>
       </div>
   </div>
@@ -48,7 +71,8 @@
       <td><b>Target Date:</b></td>
       <td><b>Tags</b></td>
     </tr>
-    <tr ng-style="{'background-color': x.done? 'lightgreen':'white'}" 
+    <tr ng-class="{'activeOnes':!x.overdue && !x.done,'overdue':x.overdue && !x.done,'done': x.done}"
+        
         ng-repeat="x in todos | orderBy:['done','targetDate','name'] track by $index" 
         ng-click="setSelected(x,$index)" 
         ng-show='hasTag(x.tags,tag)'>

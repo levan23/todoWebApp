@@ -13,3 +13,14 @@ span.tab-space{
 caption.nah{
 	font-size: 20px;
 }
+
+.done{
+	background-color: gray;
+	text-decoration: line-through;
+}
+.activeOnes{
+	background-color: skyblue;
+}
+.overdue{
+	background-color: red;
+}
