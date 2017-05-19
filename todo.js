@@ -57,8 +57,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.setSelected = function(selected,index){
         $scope.selectedOne=selected;
         $scope.currentIndex=index;
-        // selected.done=false;
-        //$scope.checkForOverdue(selected);
     }
     $scope.markAsDone = function(toMark){
         toMark.done=true;

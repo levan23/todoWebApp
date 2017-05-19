@@ -14,7 +14,7 @@
 <body>
 <div ng-app="myApp" ng-controller="myCtrl">
 
-<div class="col-md-3 yle1">
+<div class="col-md-3 chosen1">
   <div ng-show='selectedOne'>
       <p><b>Name</b><br>
       <span ng-show='!editable'>{{selectedOne.name}}</span>
@@ -60,7 +60,7 @@
   </div>
 </div>
 
-<div class ='col-md-6 padding yle2' >
+<div class ='col-md-6 padding chosen' >
 <table class="table table-strippedx">
   <caption class="nah">
     <b>To-do List</b>
@@ -71,23 +71,22 @@
       <td><b>Target Date:</b></td>
       <td><b>Tags</b></td>
     </tr>
-    <tr ng-class="{'activeOnes':!x.overdue && !x.done,'overdue':x.overdue && !x.done,'done': x.done}"
-        
-        ng-repeat="x in todos | orderBy:['done','targetDate','name'] track by $index" 
-        ng-click="setSelected(x,$index)" 
-        ng-show='hasTag(x.tags,tag)'>
-      <td>{{x.name}}</td>
-      <td>{{x.targetDate | date}}</td>
-      <td ng-repeat="y in x.tags | limitTo:3"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></td>
-    </tr>
     <tr>
       <td>{{name}}</td>
       <td>{{targetDate}}</td>
       <td ng-repeat='y in tags.split(",") | limitTo:3'>#{{y+", "}}</td>
     </tr>
+    <tr ng-class="{'activeOnes':!x.overdue && !x.done,'overdue':x.overdue && !x.done,'done': x.done}"
+        ng-repeat="x in todos | orderBy:['done','targetDate','name'] track by $index" 
+        ng-click="setSelected(x,$index)" 
+        ng-show='hasTag(x.tags,tag)'>
+      <td class="col-md-2">{{x.name}}</td>
+      <td class="col-md-2">{{x.targetDate | date}}</td>
+      <td class="col-md-2" ng-repeat="y in x.tags | limitTo:3"><small  ng-click='filterByTag(y)'>#{{y+", "}}</small></td>
+    </tr>
+    
 </table>
 </div>
-
 <form class="form-horizontal col-md-3" name="myform" novalidate>
   <div class="form-group">
     <label class="col-md-3 control-label" for="name">Name</label>  
@@ -113,7 +112,6 @@
             <date-picker ng-model="targetDate" name='targetDate' required>
             </date-picker>
         </div>                 
-      <!-- <input ng-model="targetDate" name="targetDate" class="form-control input-md" required="" type="date"> -->
     </div>
   </div>
 
@@ -129,7 +127,6 @@
   			|| myform.targetDate.$invalid || myform.targetDate.$pristine ||
   			myform.tags.$invalid" ng-click='addItem()'>Add</button>
  
-  <!-- <button type='submit' ng-click="resetFunc()">Reset localstorage</button> -->
 </form>
 </div>
 
