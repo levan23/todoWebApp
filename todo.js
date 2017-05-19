@@ -23,7 +23,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
                 dateCreated:new Date(),targetDate:new Date($scope.targetDate),
                 tags:$scope.tags.split(","),done:false,overdue:false});
 
-        $scope.checkForOverdue($scope.todos[$scope.todos.length-1]);
         $scope.update();
 
         $scope.tag='default';
