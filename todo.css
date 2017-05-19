@@ -1,10 +1,10 @@
 [ng-click]{
 	cursor: pointer;
 }
-.chosen{
+.chosen2{
 	font-size: 15px;
 }
-.chosen{
+.chosen1{
 	font-size: 20px;
 }
 span.tab-space{
@@ -23,4 +23,11 @@ caption.nah{
 }
 .overdue{
 	background-color: red;
+}
+table, tr, td, th {
+	margin:0;
+	border:0;
+	padding:0;
+	/*border: 1px solid black;*/
+	border-collapse:collapse;
 }

@@ -16,7 +16,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
     }
     if(!$localStorage.savedData && $scope.todos){
         $localStorage.savedData=$scope.todos;
-
     }
     $scope.addItem=function(){
     	
@@ -25,17 +24,13 @@ app.controller("myCtrl", function($scope,$localStorage) {
                 tags:$scope.tags.split(","),done:false,overdue:false});
 
         $scope.checkForOverdue($scope.todos[$scope.todos.length-1]);
-        $localStorage.savedData=$scope.todos;
-        
+        $scope.update();
 
-        $scope.selectedOne=undefined;
         $scope.tag='default';
-
         $scope.name="";
         $scope.description="";
         $scope.targetDate="";
         $scope.tags=[];
-        
     }
     $scope.filterByTag = function(tag){
         $scope.tag=tag;
@@ -50,7 +45,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
                 result = true;
                 //break;  //no idea why break won't work.
             }
-            
         });
         return result;
     }
@@ -108,7 +102,6 @@ app.controller("myCtrl", function($scope,$localStorage) {
             $scope.checkForOverdue($scope.todos[i]);
 
         };
-
         $scope.editable=false;
         $scope.selectedOne=undefined;
         $localStorage.savedData=$scope.todos;
