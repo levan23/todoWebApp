@@ -14,7 +14,7 @@
 <body>
 <div ng-app="myApp" ng-controller="myCtrl">
 
-<div class="col-md-4 yle1">
+<div class="col-md-3 yle1">
   <div ng-show='selectedOne'>
       <p><b>Name</b><br>
       <span ng-show='!editable'>{{selectedOne.name}}</span>
@@ -53,14 +53,14 @@
         <p ng-hide='selectedOne.overdue'>Naah</p>
       </div>
       <div>
-        <button class="btn btn-success" ng-click='markAsDone(selectedOne)'>Mark as done</button>
+        <button class="btn btn-success" ng-click='markAsDone(selectedOne)' ng-show="!editable">Mark as done</button>
         <button class="btn btn-info" ng-click='edit(selectedOne)' id='editsave'>Edit</button>
-        <button class="btn btn-danger" ng-click='delete(indexOf(selectedOne))'>Delete</button>
+        <button class="btn btn-danger" ng-click='delete(indexOf(selectedOne))' ng-show="!editable">Delete</button>
       </div>
   </div>
 </div>
 
-<div class ='col-md-4 yle2' >
+<div class ='col-md-6 padding yle2' >
 <table class="table table-strippedx">
   <caption class="nah">
     <b>To-do List</b>
@@ -88,7 +88,7 @@
 </table>
 </div>
 
-<form class="form-horizontal col-md-4" name="myform" novalidate>
+<form class="form-horizontal col-md-3" name="myform" novalidate>
   <div class="form-group">
     <label class="col-md-3 control-label" for="name">Name</label>  
     <div class="col-md-6">
@@ -107,7 +107,7 @@
   </div>
 
   <div class="form-group">
-    <label class="col-md-3 control-label" for="targetDate">Target Date</label>
+    <label class="col-md-2 control-label" for="targetDate">Target Date</label>
     <div class="col-md-6 date">    
        <div class="input-group input-append date">
             <date-picker ng-model="targetDate" name='targetDate' required>

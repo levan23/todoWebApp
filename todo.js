@@ -23,7 +23,10 @@ app.controller("myCtrl", function($scope,$localStorage) {
     	$scope.todos.push({name:$scope.name,description:$scope.description,
                 dateCreated:new Date(),targetDate:new Date($scope.targetDate),
                 tags:$scope.tags.split(","),done:false,overdue:false});
+
+        $scope.checkForOverdue($scope.todos[$scope.todos.length-1]);
         $localStorage.savedData=$scope.todos;
+        
 
         $scope.selectedOne=undefined;
         $scope.tag='default';
@@ -68,10 +71,10 @@ app.controller("myCtrl", function($scope,$localStorage) {
     $scope.edit =function(selected){
         if(!$scope.editable){
             $scope.editable=true;
-            document.getElementById('editsave').innerHTML='save';
+            document.getElementById('editsave').innerHTML='Finish editing';
         }else{
             $scope.update();
-            document.getElementById('editsave').innerHTML='edit';
+            document.getElementById('editsave').innerHTML='Edit';
         }
     }
     $scope.indexOf = function(selected){
@@ -84,10 +87,11 @@ app.controller("myCtrl", function($scope,$localStorage) {
     }
     $scope.checkForOverdue = function(selected){
         if(selected.targetDate<$scope.datenow){
-            var ind=$scope.indexOf(selected);
-            $scope.todos[ind].overdue=true;
-            $localStorage.savedData=$scope.todos;
+            $scope.todos[$scope.indexOf(selected)].overdue=true;
+        }else{
+            $scope.todos[$scope.indexOf(selected)].overdue=false;
         }
+        $localStorage.savedData=$scope.todos;
     }
     $scope.delete = function(toDelete){
         $scope.todos.splice(toDelete,1);
@@ -103,7 +107,10 @@ app.controller("myCtrl", function($scope,$localStorage) {
             if(typeof $scope.todos[i].targetDate==='string'){
                 $scope.todos[i].targetDate=new Date($scope.todos[i].targetDate);
             }
+            $scope.checkForOverdue($scope.todos[i]);
+
         };
+
         $scope.editable=false;
         $scope.selectedOne=undefined;
         $localStorage.savedData=$scope.todos;
