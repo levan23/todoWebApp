@@ -86,7 +86,7 @@ app.controller("myCtrl", function($scope,$localStorage) {
         return -1;
     }
     $scope.checkForOverdue = function(selected){
-        if(selected.targetDate<$scope.datenow){
+        if(selected.targetDate<$scope.datenow.setHours(0, 0, 0, 0)){
             $scope.todos[$scope.indexOf(selected)].overdue=true;
         }else{
             $scope.todos[$scope.indexOf(selected)].overdue=false;
